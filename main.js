@@ -35,11 +35,8 @@ class MainDialog extends soui4.JsHostWnd{
 
 		let edit_ext = this.FindIChildByName("edit_ext");
 
-		let strExt = new soui4.SStringA();
-		edit_ext.GetWindowText(strExt,true);
-		
-		strExt.ToLower();
-		let exts = strExt.c_str().split(" ");
+		let strExt = edit_ext.GetWindowText(true).toLowerCase();
+		let exts = strExt.split(" ");
 		
 		let output ="";
 		let appendFile=function(strFn, rootDir){
@@ -106,9 +103,8 @@ class MainDialog extends soui4.JsHostWnd{
 				appendFile(fn,rootDir);
 			}
 		}
-		let oldText = new soui4.SStringA();
-		this.edit_output.GetWindowText(oldText,true);
-		let newText = oldText.c_str();
+		let oldText = this.edit_output.GetWindowText(true);		
+		let newText = oldText;
 		if(newText=="")
 			newText=output;
 		else
