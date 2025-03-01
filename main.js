@@ -50,10 +50,10 @@ class MainDialog extends soui4.JsHostWnd{
 				}
 			}
 			if(bMatch){
-				let sp = '\\';
 				if(bWindowStyle==0){
-					sp = '/';
-					strFn = strFn.replaceAll('\\',sp);
+					strFn = strFn.replaceAll('\\','/');
+				}else{
+					strFn = strFn.replaceAll('/','\\');
 				}
 				if(bContainFolder==0){
 					strFn = strFn.substr(rootDir.length);
@@ -74,7 +74,7 @@ class MainDialog extends soui4.JsHostWnd{
 			for(let i=0;i<subDir.length;i++){
 				if(subDir[i] == "." || subDir[i]=="..")
 					continue;
-				let fullname = folder+"\\"+ subDir[i];
+				let fullname = folder+"/"+ subDir[i];
 				let fstat = os.stat(fullname);
 				if(fstat[0].mode & os.S_IFDIR){
 					enumDir(fullname,rootDir);
@@ -88,7 +88,7 @@ class MainDialog extends soui4.JsHostWnd{
 			let filename = new soui4.SStringA();
 			this.dropTarget.GetDropFileName(i,filename);
 			let fn = filename.c_str();
-			let pos = fn.lastIndexOf("\\");
+			let pos = fn.lastIndexOf("/");
 			let rootDir = "";
 			if(pos!=-1){
 				rootDir = fn.substr(0,pos+1);
@@ -137,11 +137,11 @@ function main(inst,workDir,args)
 	let souiFac = soui4.CreateSouiFactory();
 	/*
 	let resProvider = souiFac.CreateResProvider(1);
-	soui4.InitFileResProvider(resProvider,workDir + "\\uires");
+	soui4.InitFileResProvider(resProvider,workDir + "/uires");
 	//*/
 	//*
 	// show how to load resource from a zip file
-	let resProvider = soui4.CreateZipResProvider(theApp,workDir +"\\uires.zip","souizip");
+	let resProvider = soui4.CreateZipResProvider(theApp,workDir +"/uires.zip","souizip");
 	if(resProvider === 0){
 		soui4.log("load res from uires.zip failed");
 		return -1;
